@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Ecuaciones</title>
+</head>
+<body>
+<h2>Introduccion de coeficientes.</h2>
+<form>
+    a <input type="number" id="letraA"/> <br> <br>
+    b <input type="number" id="letraB"/> <br> <br>
+    c <input type="number" id="letraC"/> <br> <br>
+    <button id="btn">Calcular</button>
+</form>
+<br>
+<table border="1px" id="resultsTable">
+    <tr><th>x</th><th>y</th></tr>
+</table>
+<script type="text/javascript">
+    var xhReq = new XMLHttpRequest();
+    var boton =  document.getElementById("btn");
+    boton.addEventListener("click",function (e) {
+        e.preventDefault();
+        xhReq.open("POST","controller.php",true);
+
+        var a = document.getElementById("letraA").value;
+        var b = document.getElementById("letraB").value;
+        var c = document.getElementById("letraC").value;
+        xhReq.onreadystatechange = function () {
+            if ((xhReq.status=200) && (xhReq.readyState==4)){
+                console.log(xhReq.response);
+                document.getElementById("resultsTable").innerHTML+=xhReq.responseText;
+            }
+        };
+        xhReq.send(JSON.stringify({a,b,c}));
+
+    });
+</script>
+</body>
+</html>
